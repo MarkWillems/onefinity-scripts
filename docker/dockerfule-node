@@ -1,0 +1,28 @@
+FROM ubuntu:24.10
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+  && apt-get install -y pipx curl git \
+  && rm -rf /var/lib/apt/lists/*
+USER ubuntu
+RUN git clone https://github.com/buidly/onefinity-testnet-validators ~/onefinity-testnet-validators
+WORKDIR ~/onefinity-testnet-validators/
+RUN ~/onefinity-testnet-validators/download.sh
+USER root
+ENV PATH=$PATH:/usr/local/go/bin
+RUN tar -C /usr/local -xzf go-onefinity.tar.gz  && rm go-onefinity.tar.gz
+RUN cp /usr/local/go/pkg/mod/github.com/buidly/mx-evm-chain-vm-go@v0.0.0-20241218192919-285df70148f7/wasmer2/libvmexeccapi.so /usr/local/lib/ \
+ && cp /usr/local/go/pkg/mod/github.com/buidly/mx-evm-chain-vm-go@v0.0.0-20241218192919-285df70148f7/wasmer/libwasmer_linux_amd64.so /usr/local/lib/ \
+ && ldconfig
+
+USER ubuntu
+
+ADD --chown=ubuntu:ubuntu generate-validator-key.sh ~/onefinity-utils
+ADD --chown=ubuntu:ubuntu generate-wallet-key.sh ~/onefinity-utils
+ADD --chown=ubuntu:ubuntu stake.sh ~/onefinity-utils
+ADD --chown=ubuntu:ubuntu entrypoint.sh ~
+RUN chmod +x ~/onefinity-utils/*.sh
+ADD validator.json /opt/onefinity/config
+WORKDIR /home/ubuntu/onefinity
+CMD ["/home/ubuntu/entrypoint.sh"]

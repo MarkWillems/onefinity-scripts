@@ -1,0 +1,17 @@
+FROM ubuntu:24.10
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+  && apt-get install -y pipx curl git \
+  && rm -rf /var/lib/apt/lists/*
+WORKDIR /opt/
+
+RUN pipx install multiversx-sdk-cli --force \
+ &&  ln -s $(which mxpy) /usr/local/bin/mxpy
+
+ENV PATH=$PATH:/root/.local/bin
+
+RUN mxpy config set default_address_hrp one \
+ && mxpy config dump \
+ && rm /opt/mxpy
