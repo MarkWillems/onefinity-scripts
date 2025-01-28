@@ -31,14 +31,16 @@ echo 'onefinity ALL=(ALL) NOPASSWD:ALL' | sudo tee -a /etc/sudoers.d/myOverrides
 
 # Switch to the new user to continue the setup
 sudo su onefinity
-cd ~
- git clone https://github.com/MarkWillems/onefinity-scripts.git 
+
 ```
 
 
 ## get scripts
 ```
-https://github.com/MarkWillems/onefinity-scripts.git
+cd ~
+git clone https://github.com/MarkWillems/onefinity-scripts.git 
+git clone https://github.com/buidly/onefinity-testnet-validators ~/onefinity-validator
+~/onefinity-validator/download.sh
 ```
 
 sudo docker run -v ${PWD}:/out -it mxpu mxpy wallet new --format pem --outfile /out/walletKey.pem

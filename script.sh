@@ -8,8 +8,9 @@ GREEN='\x1B[0;32m'
 NC='\x1B[0m'
 
 function rebuild {
-    docker build ./onefinity-node/ -t onefinity:testnet --no-cache
-:    echo -e "${GREEN} Done rebuilding containers${NC}"
+    sudo docker build docker/node/ -t onefinity:testnet --no-cache
+    sudo docker build docker/mxpy/ -t mxpy:latest --no-cache
+    echo -e "${GREEN} Done rebuilding containers${NC}"
 }
 
 function stop_nodes {
