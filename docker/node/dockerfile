@@ -18,11 +18,6 @@ RUN cp /usr/local/go/pkg/mod/github.com/buidly/mx-evm-chain-vm-go@v0.0.0-2024121
 
 USER ubuntu
 
-ADD --chown=ubuntu:ubuntu generate-validator-key.sh ~/onefinity-utils
-ADD --chown=ubuntu:ubuntu generate-wallet-key.sh ~/onefinity-utils
-ADD --chown=ubuntu:ubuntu stake.sh ~/onefinity-utils
 ADD --chown=ubuntu:ubuntu entrypoint.sh ~
-RUN chmod +x ~/onefinity-utils/*.sh
-ADD validator.json /opt/onefinity/config
 WORKDIR /home/ubuntu/onefinity
 CMD ["/home/ubuntu/entrypoint.sh"]
