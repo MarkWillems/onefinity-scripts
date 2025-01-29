@@ -39,8 +39,9 @@ sudo su onefinity
 ```
 cd ~
 git clone https://github.com/MarkWillems/onefinity-scripts.git 
-git clone https://github.com/buidly/onefinity-testnet-validators ~/onefinity-validator
-~/onefinity-validator/download.sh
+git clone https://github.com/buidly/onefinity-testnet-validators ~/onefinity-validator-src
+cd onefinity-validator-src 
+./download.sh
 ```
 
 sudo docker run -v ${PWD}:/out -it mxpu mxpy wallet new --format pem --outfile /out/walletKey.pem
