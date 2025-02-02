@@ -17,34 +17,54 @@ echo \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
-```
-
-```
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
 # Install once
 ```
 sudo apt -y update && sudo apt -y upgrade && sudo apt -y dist-upgrade
-sudo useradd -s /bin/bash -d /home/onefinity -m -G sudo onefinity
-echo 'onefinity ALL=(ALL) NOPASSWD:ALL' | sudo tee -a /etc/sudoers.d/myOverrides
-
-# Switch to the new user to continue the setup
-sudo su onefinity
-
 ```
 
 
 ## get scripts
 ```
-cd ~
+cd /opt
 git clone https://github.com/MarkWillems/onefinity-scripts.git 
-git clone https://github.com/buidly/onefinity-testnet-validators ~/onefinity-validator-src
+git clone https://github.com/buidly/onefinity-testnet-validators /opt/onefinity-validator-src
 cd onefinity-validator-src 
 ./download.sh
 ```
+## get scripts
+```
 
-sudo docker run -v ${PWD}:/out -it mxpu mxpy wallet new --format pem --outfile /out/walletKey.pem
-initial
-  ./keygenerator  --num-keys 4 --no-split
+```
+## build containers
+```
+cd opt/onefinity-scripts/
+chmod 755 script.sh
+ ./script.sh build
+
+```
+
+## command
+# generate wallet
+ sudo docker run --volume $PWD:/out mxpy:latest mxpy wallet new --format pem --outfile /out/walletKey.pem
+
+
+# run manually
+ sudo docker run -it --volume $PWD:/home/ubuntu/working-dir onefinity:testnet
+
+# termui 
+docker exec -it onefinity-validator-0 /opt/onefinity-utils/termui  --address localhost:9501
+
+
+./keygenerator  --num-keys 4 --no-split
+
+## setup keys
+export PATH=$PATH:/opt/onefinity-validator-src/onefinity-utils/
+keygenerator --num-keys=6 --key-type=validator --no-split
+mv validatorKey.pem allValidatorsKeys.pem
+cat allValidatorsKeys.pem | awk -F'[ -]*' '/BEGIN/{print $(NF-1)}' > BLS_KEYS.txt
+sed -i -e 's/^/      "/g' -e 's/$/",/g' BLS_KEYS.txt
+cat BLS_KEY.txt
 

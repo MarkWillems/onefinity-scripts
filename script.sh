@@ -46,35 +46,16 @@ function stop_nodes {
 
 }
 function create_node {
-  echo -e
-  echo -e "${GREEN} Time to choose a node name for node number $(($INDEX+1)) ${NC}"
-  echo -e
-  read -p "Choose a custom name (default onefinity-validator-$INDEX): " NODE_NAME
-  if [ "$NODE_NAME" = "" ]
-  then
-      NODE_NAME="onefinity-validator-$INDEX"
-  fi
+    echo -e
+    echo -e "${GREEN} Nodes are named to their assigned shard${NC}"
+    echo -e
+    NODE_NAME="onefinity-validator-$INDEX"
+    sudo cp ../onefinity-validator-src/onefinity/config/ volumes/$NODE_NAME/ -rf
 
-  mkdir -p ./volumes/$NODE_NAME/keys/
-  echo -e "${GREEN} Generated directory for node $NODE_NAME${NC}"
-  echo -e ""
-  echo -e "If you want to import keys for this node than place the keys in this director:"
-  echo -e "./volumes/$NODE_NAME/keys"
-  echo -e ""
-  if [ "$NODE_NAME" = "" ]
-  then
-      NODE_NAME="onefinity-validator-$INDEX"
-  fi
-  read -p "Generate fresh keys?[y-n] : " GENERATEKEYS
-    re='^[y-n]+$'
-  if [ "$GENERATEKEYS" = "y" ]
-  then
-    echo -e ""
-    echo -e "Generation keys for the node"
-      docker run -it onefinity:testnet /opt/onefinity-utils/generate-wallet-key.sh> ./volumes/$NODE_NAME/keys/walletKey.pem
-      docker run -it onefinity:testnet /opt/onefinity-utils/generate-validator-key.sh> ./volumes/$NODE_NAME/keys/validatorKey.pem
-    echo -e "${GREEN} Generated validator and walley keys for $NODE_NAME in /volumes/$NODE_NAME/keys ${NC}"
-  fi
+    mkdir -p ./volumes/$NODE_NAME/keys/
+    
+    echo -e "${GREEN} Generated directory for node $NODE_NAME${NC}"
+
 
 
 }
@@ -89,9 +70,9 @@ case "$1" in
 
 'setup')
 
-    echo -e "${GREEN} Start of initialising $NUMBEROFNODES node(s)${NC}"
+    echo -e "${GREEN} Start of initialising the nodes for this multikey setup ${NC}"
     echo -e ""
-    read -p "How many nodes do you want to run ? : " NUMBEROFNODES
+    read -p "Every shard get one node assigned, How many shards are there ? : " NUMBEROFNODES
     re='^[0-9]+$'
     if ! [[ $NUMBEROFNODES =~ $re ]] && [ "$NUMBEROFNODES" -gt 0 ]
     then
@@ -105,7 +86,6 @@ case "$1" in
     done
     echo -e ""
     echo -e "${GREEN} Initialising done${NC}"
-    echo -e "${CYAN} Remember that if you want to import your existing keys,  you should copy them to the /volumes/<node-name>/keys/ directory before the start of the nodes.${NC}"
     sudo chown -R 1000:1000 volumes/
 ;;
 'stop')

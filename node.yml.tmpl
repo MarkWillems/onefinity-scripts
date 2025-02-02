@@ -1,0 +1,11 @@
+services:
+ <node-name>:
+  image: onefinity:testnet
+  container_name: <node-name>
+  restart: unless-stopped
+  environment:
+   - NODE_NAME=<node-name>
+  volumes:
+   - "./volumes/<node-name>/config/:/home/onefinity/config"
+   - "./volumes/<node-name>/working-dir/:/home/onefinity/working-dir"
+

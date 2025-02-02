@@ -9,7 +9,9 @@ USER ubuntu
 RUN git clone https://github.com/buidly/onefinity-testnet-validators ~/onefinity-testnet-validators
 WORKDIR /home/ubuntu/onefinity-testnet-validators/
 RUN ~/onefinity-testnet-validators/download.sh
-RUN  cp /home/ubuntu/onefinity-testnet-validators/onefinity /home/ubuntu/ -rf
+RUN cp /home/ubuntu/onefinity-testnet-validators/onefinity /home/ubuntu/ -rf
+RUN cp /home/ubuntu/onefinity-testnet-validators/onefinity-utils/termui /home/ubuntu/onefinity -f
+
 USER root
 ENV PATH=$PATH:/usr/local/go/bin
 RUN tar -C /usr/local -xzf go-onefinity.tar.gz  && rm go-onefinity.tar.gz
@@ -18,9 +20,9 @@ RUN cp /usr/local/go/pkg/mod/github.com/buidly/mx-evm-chain-vm-go@v0.0.0-2024121
  && ldconfig
 
 USER ubuntu
-
+                          
 ADD --chown=ubuntu:ubuntu entrypoint.sh /home/ubuntu/onefinity
 RUN chmod +x /home/ubuntu/onefinity/entrypoint.sh
 
 WORKDIR /home/ubuntu/onefinity
-CMD ["./entrypoint.sh"]
+CMD ["/home/ubuntu/onefinity/entrypoint.sh"]
