@@ -1,0 +1,8 @@
+{
+  "validators": [
+    {
+      "pemFile": "/opt/onefinity/validatorKey.pem"
+    }
+  ]
+}
+

@@ -68,21 +68,17 @@ case "$1" in
     echo -e "${GREEN} Nodes are named to their assigned shard${NC}"
     echo -e
     NODE_NAME="onefinity-validator-meta"
-    sudo cp ../onefinity-validator-src/onefinity/config/ volumes/$NODE_NAME/ -rf
     mkdir -p ./volumes/$NODE_NAME/keys/
+    sudo cp ../onefinity-validator-src/onefinity/config/ volumes/$NODE_NAME/config -rf
     echo -e "${GREEN} Generated directory for node $NODE_NAME${NC}"
 
     for i in $(seq 1 $NUMBEROFNODES);
     do
         INDEX=$(( $i  ))
         NODE_NAME="onefinity-validator-$INDEX"
-        sudo cp ../onefinity-validator-src/onefinity/config/ volumes/$NODE_NAME/ -rf
-
         mkdir -p ./volumes/$NODE_NAME/keys/
-        
+        sudo cp ../onefinity-validator-src/onefinity/config/ volumes/$NODE_NAME/config -rf
         echo -e "${GREEN} Generated directory for node $NODE_NAME${NC}"
-
-
     done
     echo -e ""
     echo -e "${GREEN} Initialising done${NC}"

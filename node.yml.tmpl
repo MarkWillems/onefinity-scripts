@@ -6,6 +6,6 @@ services:
   environment:
    - NODE_NAME=<node-name>
   volumes:
-   - "./volumes/<node-name>/config/:/home/onefinity/config"
-   - "./volumes/<node-name>/working-dir/:/home/onefinity/working-dir"
-
+   - "./volumes/<node-name>/config/:/home/ubuntu/onefinity/config"
+   - "./volumes/<node-name>/keys:/home/ubuntu/onefinity/keys"
+   - "./volumes/<node-name>/working-dir/:/home/ubuntu/onefinity/working-dir"

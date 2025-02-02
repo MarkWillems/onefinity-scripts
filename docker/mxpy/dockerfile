@@ -15,3 +15,8 @@ ENV PATH=$PATH:/root/.local/bin
 RUN mxpy config set default_address_hrp one \
  && mxpy config dump \
  && rm /opt/mxpy
+
+ RUN mkdir /opt/onefinity
+ ADD validator.json /opt/onefinity
+ ADD stake.sh /opt/onefinity
+ RUN chmod +x /opt/onefinity/stake.sh
