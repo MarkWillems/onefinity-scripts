@@ -45,20 +45,6 @@ function stop_nodes {
     echo -e ""
 
 }
-function create_node {
-    echo -e
-    echo -e "${GREEN} Nodes are named to their assigned shard${NC}"
-    echo -e
-    NODE_NAME="onefinity-validator-$INDEX"
-    sudo cp ../onefinity-validator-src/onefinity/config/ volumes/$NODE_NAME/ -rf
-
-    mkdir -p ./volumes/$NODE_NAME/keys/
-    
-    echo -e "${GREEN} Generated directory for node $NODE_NAME${NC}"
-
-
-
-}
 
 case "$1" in
 'rebuild')
@@ -73,16 +59,30 @@ case "$1" in
     echo -e "${GREEN} Start of initialising the nodes for this multikey setup ${NC}"
     echo -e ""
     read -p "Every shard get one node assigned, How many shards are there ? : " NUMBEROFNODES
-    re='^[0-9]+$'
+    re='^[1-9]+$'
     if ! [[ $NUMBEROFNODES =~ $re ]] && [ "$NUMBEROFNODES" -gt 0 ]
     then
         NUMBEROFNODES = 1
     fi
+    echo -e
+    echo -e "${GREEN} Nodes are named to their assigned shard${NC}"
+    echo -e
+    NODE_NAME="onefinity-validator-meta"
+    sudo cp ../onefinity-validator-src/onefinity/config/ volumes/$NODE_NAME/ -rf
+    mkdir -p ./volumes/$NODE_NAME/keys/
+    echo -e "${GREEN} Generated directory for node $NODE_NAME${NC}"
 
     for i in $(seq 1 $NUMBEROFNODES);
     do
-        INDEX=$(( $i - 1 ))
-        create_node
+        INDEX=$(( $i  ))
+        NODE_NAME="onefinity-validator-$INDEX"
+        sudo cp ../onefinity-validator-src/onefinity/config/ volumes/$NODE_NAME/ -rf
+
+        mkdir -p ./volumes/$NODE_NAME/keys/
+        
+        echo -e "${GREEN} Generated directory for node $NODE_NAME${NC}"
+
+
     done
     echo -e ""
     echo -e "${GREEN} Initialising done${NC}"
