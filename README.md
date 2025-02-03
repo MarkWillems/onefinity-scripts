@@ -70,7 +70,7 @@ cat allValidatorsKeys.pem | awk '/BEGIN/,/END/{if (/BEGIN/) {a++}; out="validato
 Do the staking (times your fikes
 
 ```
-sudo docker run --rm -it --volume $PWD/walletKey.pem:/opt/onefinity/walletKey.pem --volume  $PWD/validatorKey-1.pem:/opt/onefinity/validatorKey.pem mxpy:latest /opt/onefinity/stake.sh
+sudo docker run --rm -it --volume $PWD/walletKey.pem:/in/walletKey.pem --volume  $PWD/validatorKey-1.pem:/opt/onefinity/validatorKey.pem mxpy:latest /opt/onefinity/stake.sh
 ```
 
 # run manually
