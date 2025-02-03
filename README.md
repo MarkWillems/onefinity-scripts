@@ -60,12 +60,14 @@ cat allValidatorsKeys.pem | awk -F'[ -]*' '/BEGIN/{print $(NF-1)}' > BLS_KEYS.tx
 sed -i -e 's/^/      "/g' -e 's/$/",/g' BLS_KEYS.txt
 cat BLS_KEY.txt
 ```
-
+Add the prefs file
 # stake the stuff
+Split the files
 ```
 cat allValidatorsKeys.pem | awk '/BEGIN/,/END/{if (/BEGIN/) {a++}; out="validatorKey-"a".pem"; print>out;}'
-sudo docker run --rm -it --volume $PWD/walletKey.pem:/opt/onefinity/walletKey.pem --volume  $PWD/validatorKey-1.pem:/opt/onefinity/validatorKey.pem mxpy:latest /opt/onefinity/stake.sh
 ```
+Do the staking
+sudo docker run --rm -it --volume $PWD/walletKey.pem:/opt/onefinity/walletKey.pem --volume  $PWD/validatorKey-1.pem:/opt/onefinity/validatorKey.pem mxpy:latest /opt/onefinity/stake.sh
 
 # run manually
 ```
