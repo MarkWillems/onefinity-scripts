@@ -45,26 +45,34 @@ chmod 755 script.sh
 
 ## command
 # generate wallet
+```
 sudo docker run --volume $PWD:/out mxpy:latest mxpy wallet new --format pem --outfile /out/walletKey.pem
+```
 Visit https://litewallet.validators.onefinity.network/unlock and use the (generated) walletKey.pem.
 
+
 ## setup keys
+```
 export PATH=$PATH:/opt/onefinity-validator-src/onefinity-utils/
 keygenerator --num-keys=6 --key-type=validator --no-split
 mv validatorKey.pem allValidatorsKeys.pem
 cat allValidatorsKeys.pem | awk -F'[ -]*' '/BEGIN/{print $(NF-1)}' > BLS_KEYS.txt
 sed -i -e 's/^/      "/g' -e 's/$/",/g' BLS_KEYS.txt
 cat BLS_KEY.txt
+```
 
 # stake the stuff
+```
 cat allValidatorsKeys.pem | awk '/BEGIN/,/END/{if (/BEGIN/) {a++}; out="validatorKey-"a".pem"; print>out;}'
 sudo docker run --rm -it --volume $PWD/walletKey.pem:/opt/onefinity/walletKey.pem --volume  $PWD/validatorKey-1.pem:/opt/onefinity/validatorKey.pem mxpy:latest /opt/onefinity/stake.sh
-
+```
 
 # run manually
+```
 sudo docker run -it --volume $PWD:/home/ubuntu/working-dir onefinity:testnet
-
+```
 # termui 
+```
 docker exec -it onefinity-validator-1 ./termui  --address localhost:9501
-
+```
 
