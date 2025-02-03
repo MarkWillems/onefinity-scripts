@@ -20,3 +20,4 @@ RUN mxpy config set default_address_hrp one \
  ADD validator.json /opt/onefinity
  ADD stake.sh /opt/onefinity
  RUN chmod +x /opt/onefinity/stake.sh
+ WORKDIR /opt/onefinity
