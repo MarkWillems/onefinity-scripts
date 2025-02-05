@@ -50,6 +50,10 @@ sudo docker run --volume $PWD:/out mxpy:latest mxpy wallet new --format pem --ou
 ```
 Visit https://litewallet.validators.onefinity.network/unlock and use the (generated) walletKey.pem.
 
+## setup nodes
+```
+./script setup
+```
 
 ## setup keys
 ```
